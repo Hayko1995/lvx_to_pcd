@@ -22,7 +22,6 @@ def main(ReadFileName, file_number=1,  verbose=False):
 
     Idx = Idx + 59 * DeviceCount
     list1 = []
-    pcd_frame_list = []
 
     end = 0
     b = 0
@@ -52,9 +51,9 @@ def main(ReadFileName, file_number=1,  verbose=False):
                         int.from_bytes(d[Idx+4:Idx+8], 'little', signed=True)
                     B2D_Z = int.from_bytes(
                         d[Idx+8:Idx+12], 'little', signed=True)
-                    list_tmp = ([B2D_Y,
+                    list_tmp = ([B2D_X,
+                                 B2D_Y,
                                  B2D_Z,
-                                 B2D_X,
                                  d[Idx+12]
                                  ])
                     if not B2D_X+B2D_Y+B2D_Z == 0 and B2D_X+B2D_Y+B2D_Z < 1e6:
@@ -69,14 +68,9 @@ def main(ReadFileName, file_number=1,  verbose=False):
         OutData = OutData/1000
         pcd = o3d.geometry.PointCloud()
         pcd.points = o3d.utility.Vector3dVector(OutData)
-        pcd_frame_list.append(pcd)
         if (b % file_number == 0 ):
             o3d.io.write_point_cloud(str(b) + '.pcd', pcd)
-
     rf.close
-
-    return pcd_frame_list
-
 
 args = parser.parse_args()
 
