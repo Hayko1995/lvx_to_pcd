@@ -64,6 +64,7 @@ def main(ReadFileName, file_number=1,  verbose=False):
                 print("dtype", dtype)
 
         OutData = np.array(list1)
+        list1 = []
         OutData = np.delete(OutData, 3, 1)
         OutData = OutData/1000
         pcd = o3d.geometry.PointCloud()
